@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+
+    <link rel="stylesheet" href="webjars/bootstrap/4.3.1/css/bootstrap.css"/>
+    <link rel="stylesheet" href="webjars/font-awesome/5.15.1/css/all.css"/>
+    <link rel="stylesheet" href="../static/js/css/main.css" th:href="@{js/css/main.css}"/>
+
+
+
+
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+
+<nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand">
+        <img src="https://www.netex.ro/wp-content/uploads/logo_Netex-1.svg" width="70" height="50" class="d-inline-block align-top">
+        User Manager
+    </a>
+</nav>
+
+<div class="container mySpace">
+    <button type="button" class="btn btn-success fas fa-user-plus addButton" data-toggle="modal" data-target="#addModal"></button>
+<table class="table table-striped">
+    <tr>
+        <td>Id</td>
+        <td>Name</td>
+        <td>Department</td>
+        <td>Position</td>
+        <td>Employment Date</td>
+        <td>Edit</td>
+        <td>Delete</td>
+    </tr>
+    <tr th:each="user:${users}">
+        <td th:text="${user.Id}">Id</td>
+        <td th:text="${user.name}">Name</td>
+        <td th:text="${user.department}">Department</td>
+        <td th:text="${user.position}">Position</td>
+        <td th:text="${user.updateOn}">Employment Date</td>
+        <td><button th:href= "@{/oneuser/(Id=${user.Id})}" class="btn btn-info editButton fas fa-pencil-alt"></button></td>
+        <td><button th:href= "@{/delete/(Id=${user.Id})}" class="btn btn-danger deleteButton fas fa-trash"></button></td>
+    </tr>
+</table>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <form th:action="@{/addNew}" method="post">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addModalLabel">Add new user</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                        <div class="form-group">
+                            <label for="addId" class="col-form-label">Id:</label>
+                            <input type="text" class="form-control"  id="addId" name="Id">
+
+                        </div>
+                        <div class="form-group">
+                            <label for="addName" class="col-form-label">Name:</label>
+                            <input type="text" class="form-control" id="addName" name="name">
+
+                        </div>
+                        <div class="form-group">
+                            <label for="addPosition" class="col-form-label">Position:</label>
+                            <input type="text" class="form-control" id="addPosition" name="position">
+                        </div>
+                        <div class="form-group">
+                            <label for="addDepartment" class="col-form-label">Department:</label>
+                            <input type="text" class="form-control" id="addDepartment" name="department">
+                        </div>
+                        <div class="form-group">
+                            <label for="addDate" class="col-form-label">Employment Date:</label>
+                            <input type="text" class="form-control" placeholder="yyyy-mm-dd" id="addDate" name="updateOn">
+
+                        </div>
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-secondary dropdown-toggle selectDb" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" name="editDb">
+                                Select Database
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="">cockroachDB</a>
+                                <a class="dropdown-item" href="">postgressDB</a>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <form th:action="@{/save}" method="put">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit user</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="editId" class="col-form-label">Id:</label>
+                        <input type="text" class="form-control" id="editId" name="Id">
+                    </div>
+                    <div class="form-group">
+                        <label for="editName" class="col-form-label">Name:</label>
+                        <input type="text" class="form-control" id="editName" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="editPosition" class="col-form-label">Position:</label>
+                        <input type="text" class="form-control" id="editPosition" name="position">
+                    </div>
+                    <div class="form-group">
+                        <label for="editDepartment" class="col-form-label">Department:</label>
+                        <input type="text" class="form-control" id="editDepartment" name="department">
+                    </div>
+                    <div class="form-group">
+                        <label for="editDate" class="col-form-label">Employment Date:</label>
+                        <input type="text" class="form-control" id="editDate" name="updateOn">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal" tabindex="-1" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete selected record?</p>
+            </div>
+            <div class="modal-footer">
+                <a href="" type="submit" class="btn btn-danger" id="deleteId">Delete</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="webjars/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="webjars/popper.js/1.14.3/umd/popper.js"></script>
+<script type="text/javascript" src="webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../static/js/main.js" th:src="@{js/main.js}"></script>
+</body>
+
+<div class="container footer">
+    <hr>
+
+    <!-- Footer -->
+
+    <footer>
+        <div class="row">
+            <div class="col-lg-12">
+
+                <p>&#128295 Mock Project 2020 &#128296</p>
+
+            </div>
+        </div>
+
+    </footer>
+</div>
+
+</html>
