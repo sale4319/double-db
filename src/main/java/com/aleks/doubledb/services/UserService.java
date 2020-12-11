@@ -34,4 +34,11 @@ public class UserService {
     public void deleteUser(Integer Id) {
         userRepository.deleteById(Id);
     }
+
+    /*public boolean checkUser(Integer Id) {
+        Optional<User> u= userRepository.findById(Id);
+        if(u!=null)
+            return true;
+        return false;
+    }*/
 }

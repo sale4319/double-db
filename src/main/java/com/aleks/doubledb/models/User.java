@@ -1,9 +1,7 @@
 package com.aleks.doubledb.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
@@ -14,8 +12,16 @@ public class User {
     private Integer Id;
     @NotEmpty
     private String name;
+    @NotEmpty
     private String position;
+    @NotEmpty
     private String department;
+    /*@Id
+    @Email
+    @NotEmpty
+    @Column(unique=true)
+    private String email;*/
+    @NotEmpty
     private String updateOn;
 
     public User() {
@@ -27,6 +33,7 @@ public class User {
         this.name = name;
         this.position = position;
         this.department = department;
+        //this.email = email;
         this.updateOn = updateOn;
     }
 
@@ -61,6 +68,14 @@ public class User {
     public void setDepartment(String department) {
         this.department = department;
     }
+
+    /*public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }*/
 
     public String getUpdateOn() {
         return updateOn;

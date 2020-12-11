@@ -39,7 +39,14 @@ public class UserController {
     }
 
     @RequestMapping(value="/addNew", method = {RequestMethod.POST, RequestMethod.PUT, RequestMethod.GET})
-    public String addUser(@Valid User user, BindingResult bindingResultl) {
+    public String addUser(@Valid User user, BindingResult bindingResult, Model model) {
+        if(bindingResult.hasErrors()) {
+            return "redirect:/users";
+        }
+        /*if(userService.checkUser(user.getId())){
+            model.addAttribute("exist", true);
+            return "redirect:/home";
+        }*/
 
         userService.addUser(user);
         return "redirect:/users";
